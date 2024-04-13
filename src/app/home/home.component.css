@@ -1,0 +1,63 @@
+main {
+  min-height: 50vh;
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  justify-content: center;
+  align-items: center;
+}
+
+h1 {
+  font-size: 5rem;
+  letter-spacing: .125rem;
+}
+
+form {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1rem;
+  min-width: 700px;
+  margin-bottom: 2rem;
+}
+
+input,
+button {
+  border-radius: 0.4rem;
+  border: 1px solid black;
+}
+
+input {
+  padding: 0.5rem 1rem;
+  width: 100%;
+  font-size: 1.25rem;
+
+}
+
+button {
+  padding: 0.625rem 2rem;
+  background-color: #f2dd6e;
+  cursor: pointer;
+  display: block;
+  font-size: 1.5rem;
+  transition: background-color .3s;
+}
+
+button:hover{
+  background-color: #E5B25D;
+}
+
+form~div{
+  text-align: center;
+  font-size: 1.5rem;
+}
+
+div span{
+  display: block;
+  font-size: 2rem;
+  margin: .75rem 0;
+}
+
+div span a{
+  color: black;
+}

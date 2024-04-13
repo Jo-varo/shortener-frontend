@@ -1,0 +1,19 @@
+<main>
+  <h1>Shortener</h1>
+  <div>
+    <form (submit)="handleSubmit()">
+      <input type="text" placeholder="https://www.google.com/" required />
+      <button>Short link</button>
+    </form>
+    @if (shortenedLink) {
+    <div>
+      <h3>Shortened link:</h3>
+      <span>
+        <a href="{{ shortenedLink }}" target="_blank">
+          {{ shortenedLink }}
+        </a>
+      </span>
+    </div>
+    }
+  </div>
+</main>
