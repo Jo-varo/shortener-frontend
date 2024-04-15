@@ -1,9 +1,20 @@
 <main>
   <h1>Shortener</h1>
   <div>
-    <form (submit)="handleSubmit()">
-      <input type="text" placeholder="https://www.google.com/" required />
-      <button>Short link</button>
+    <form [formGroup]="shortenerForm" (submit)="handleSubmit()">
+      <div class="shortener-link-group">
+        <input
+          type="text"
+          placeholder="https://www.google.com/"
+          required
+          [class.invalid]="!(originalURL.valid || originalURL.pristine)"
+          formControlName="{{ constantOriginalURL }}"
+        />
+        <p [hidden]="originalURL.valid || originalURL.pristine" class="error">
+          A valid url is required
+        </p>
+      </div>
+      <button type="submit">Short link</button>
     </form>
     @if (shortenedLink) {
     <div>
@@ -12,6 +23,12 @@
         <a href="{{ shortenedLink }}" target="_blank">
           {{ shortenedLink }}
         </a>
+      </span>
+      <span>
+        <p>{{ originalURL.errors | json }}</p>
+        <p>{{ originalURL.status }}</p>
+        <p>{{ originalURL.touched }}</p>
+        <p>Valid: {{ originalURL.valid }}</p>
       </span>
     </div>
     }

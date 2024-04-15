@@ -9,7 +9,7 @@ main {
 
 h1 {
   font-size: 5rem;
-  letter-spacing: .125rem;
+  letter-spacing: 0.125rem;
 }
 
 form {
@@ -27,11 +27,23 @@ button {
   border: 1px solid black;
 }
 
+.shortener-link-group {
+  width: 100%;
+}
+
+.error {
+  color: red;
+  margin: 0.25rem 0.5rem;
+}
+
+input.invalid{
+  border: 2px red solid;
+}
+
 input {
   padding: 0.5rem 1rem;
   width: 100%;
   font-size: 1.25rem;
-
 }
 
 button {
@@ -40,24 +52,24 @@ button {
   cursor: pointer;
   display: block;
   font-size: 1.5rem;
-  transition: background-color .3s;
+  transition: background-color 0.3s;
 }
 
-button:hover{
-  background-color: #E5B25D;
+button:hover {
+  background-color: #e5b25d;
 }
 
-form~div{
+form ~ div {
   text-align: center;
   font-size: 1.5rem;
 }
 
-div span{
+div span {
   display: block;
   font-size: 2rem;
-  margin: .75rem 0;
+  margin: 0.75rem 0;
 }
 
-div span a{
+div span a {
   color: black;
 }
