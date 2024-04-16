@@ -19,10 +19,13 @@ export class HomeComponent {
 
   constantOriginalURL = ORIGINAL_URL;
 
+
+  urlPattern = /(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
+
   shortenerForm = new FormGroup({
     [ORIGINAL_URL]: new FormControl('', [
       Validators.required,
-      Validators.pattern(/(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/),
+      Validators.pattern(this.urlPattern),
     ]),
   });
 
@@ -31,14 +34,13 @@ export class HomeComponent {
   }
 
   //TODO: just a placeholder, delete it later
-  shortenedLink = 'https://our-host.com/5h0r7nd';
-
+  shortenedLink = '';
   //TODO: remove 'commonModule', only imported for the json pipe
 
   handleSubmit() {
     if (!this.shortenerForm.valid) return alert('Please, enter a valid url');
     const formData = this.shortenerForm.value;
     console.log(formData)
-    alert('submitted');
+    this.shortenedLink = 'https://our-host.com/5h0r7nd'
   }
 }
