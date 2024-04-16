@@ -16,7 +16,6 @@ import { NgIconComponent, provideIcons } from '@ng-icons/core';
   standalone: true,
   imports: [NgIconComponent, ReactiveFormsModule],
   templateUrl: './login.component.html',
-  styleUrl: './login.component.css',
   viewProviders: [provideIcons({ bootstrapPersonCircle, bootstrapArrowRight })],
 })
 export class LoginComponent {

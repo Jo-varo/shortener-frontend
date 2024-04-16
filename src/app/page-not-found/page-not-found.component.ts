@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
+import { bootstrapExclamationTriangle } from '@ng-icons/bootstrap-icons';
+import { NgIconComponent, provideIcons } from '@ng-icons/core';
 
 @Component({
   selector: 'app-page-not-found',
   standalone: true,
-  imports: [],
+  imports: [NgIconComponent],
   templateUrl: './page-not-found.component.html',
-  styleUrl: './page-not-found.component.css'
+  viewProviders: [provideIcons({bootstrapExclamationTriangle})]
 })
-export class PageNotFoundComponent {
-
-}
+export class PageNotFoundComponent {}
