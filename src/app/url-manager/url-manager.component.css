@@ -1,0 +1,29 @@
+th,
+td {
+  @apply border border-gray-300 p-2;
+}
+
+td {
+  @apply p-3;
+}
+
+tr td:nth-last-child(-n + 2) {
+  @apply text-3xl;
+}
+
+td:nth-last-child(2) button {
+  @apply text-amber-400;
+}
+
+td:nth-last-child(1) button {
+  @apply text-red-500;
+}
+
+td button {
+  @apply block mx-auto;
+  transition: transform .3s;
+}
+
+td button:hover {
+  transform: scale(1.2);
+}

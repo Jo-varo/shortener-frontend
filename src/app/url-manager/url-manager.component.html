@@ -1,1 +1,34 @@
-<p>url-manager works!</p>
+<div>
+  <header class="flex justify-end mb-3">
+    <a class="py-2 px-4 bg-amber-200 hover:bg-amber-300 transition-colors duration-300" routerLink="./create">Short new url</a>
+  </header>
+  <table class="w-full shadow-xl">
+    <thead class="text-lg">
+      <tr>
+        <th>Original Link</th>
+        <th>Custom Slug</th>
+        <th>Edit</th>
+        <th>Delete</th>
+      </tr>
+    </thead>
+    <tbody>
+      @for (url of urls; track url) {
+      <tr>
+        <td>https://chat.openai.com/</td>
+        <td>https://our-host.com/5h0r7nd</td>
+        <td>
+          <button (click)="handleEdit(url)">
+            <ng-icon name="bootstrapPencilFill" />
+          </button>
+        </td>
+        <td>
+          <button (click)="handleDelete(url)">
+            <ng-icon name="bootstrapXLg" />
+          </button>
+        </td>
+      </tr>
+      }
+    </tbody>
+  </table>
+</div>
+<router-outlet/>

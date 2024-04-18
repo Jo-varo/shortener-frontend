@@ -1,0 +1,34 @@
+<div
+  class="absolute top-0 left-0 bg-[#000000c0] w-full h-full flex justify-center items-center p-10"
+  (click)="handleClose(); (false)"
+>
+  <form
+    (click)="$event.stopPropagation()"
+    (submit)="handleSubmit()"
+    class="bg-stone-50 px-10 py-8 border border-black rounded w-7/12 min-w-[300px] mb-96"
+  >
+    <div class="mb-6">
+      <label class="block">Enter the link to shorten</label>
+      <input
+        type="text"
+        placeholder="www.google.com"
+        class="w-full border border-black rounded p-2"
+      />
+    </div>
+    <div>
+      <label class="block">Enter the slug that you wish </label>
+      <span class="flex text-center items-center my-1">
+        <p>https://our-host.com/</p>
+        <input
+          type="text"
+          placeholder="MyLinkedIn2024"
+          class="border border-black rounded px-2 py-1 ml-1"
+        />
+      </span>
+    </div>
+    <button class="py-2 px-4 bg-amber-200 hover:bg-amber-300 transition-colors duration-300 font-bold">
+      Short link
+    </button>
+    <span class="block"> [id: {{ id }}] </span>
+  </form>
+</div>

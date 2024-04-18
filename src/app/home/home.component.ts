@@ -19,7 +19,6 @@ export class HomeComponent {
 
   constantOriginalURL = ORIGINAL_URL;
 
-
   urlPattern = /(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
 
   shortenerForm = new FormGroup({
@@ -33,7 +32,6 @@ export class HomeComponent {
     return this.shortenerForm.get(ORIGINAL_URL) as FormControl;
   }
 
-  //TODO: just a placeholder, delete it later
   shortenedLink = '';
   //TODO: remove 'commonModule', only imported for the json pipe
 
