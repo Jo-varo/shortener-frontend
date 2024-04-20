@@ -18,7 +18,7 @@ import { URL_REGEX } from '../../helpers/constants';
 })
 export class CustomSlugComponent implements OnDestroy, OnInit {
   id = '';
-  modalType: ModalType = 'Edit';
+  modalType?: ModalType;
   modalTitle = () => `${this.modalType} a custom url`;
   buttonText = () => `${this.modalType} link`;
   routeSubscription?: Subscription;
@@ -46,31 +46,26 @@ export class CustomSlugComponent implements OnDestroy, OnInit {
     this.routeSubscription = this.route.params.subscribe((params) => {
       this.id = params['id'];
     });
-    if (this.id === 'create') {
-      //Create new register
+    if (this.id === undefined) {
+      //Create
       this.modalType = 'Create';
     } else {
-      //Edit url
+      //edit
+      this.modalType = 'Edit';
     }
-  }
-
-  handleSubmit() {
-    if (!this.formCustomSlug.valid) return alert('Form invalid');
-    if (this.id === 'create') {
-      //Create new register
-      alert('created');
-    } else {
-      //Edit url
-      alert('edited');
-    }
-    this.handleClose();
+    console.log(this.id);
   }
 
   ngOnDestroy() {
     this.routeSubscription?.unsubscribe();
   }
 
-  handleClose() {
+  handleSubmit() {
+    if (!this.formCustomSlug.valid) return alert('Form invalid');
+    this.closeModal();
+  }
+
+  closeModal() {
     this.router.navigate(['/manage-urls']);
   }
 }

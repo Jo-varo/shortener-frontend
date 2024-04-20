@@ -1,12 +1,12 @@
 <div
-  class="absolute top-0 left-0 bg-[#000000c0] w-full h-full flex justify-center items-center p-10"
-  (click)="handleClose(); (false)"
+  class="absolute top-0 left-0 bg-[#000000c0] w-full h-full flex justify-center items-center"
+  (click)="closeModal(); (false)"
   [formGroup]="formCustomSlug"
 >
   <form
     (click)="$event.stopPropagation()"
     (submit)="handleSubmit()"
-    class="bg-stone-50 px-10 py-8 border border-black rounded w-7/12 min-w-[300px] mb-96"
+    class="bg-stone-50 p-12 border border-black rounded w-7/12 min-w-[300px] mb-40 max-w-[600px]"
   >
     <h1 class="font-bold text-3xl mb-6">
       {{ this.modalTitle() }}
@@ -52,10 +52,9 @@
       </p>
     </div>
     <button
-      class="py-2 px-4 bg-amber-200 hover:bg-amber-300 transition-colors duration-300 font-bold"
+      class="py-2 px-6 text-xl bg-amber-200 hover:bg-amber-300 transition-colors duration-300 block mx-auto"
     >
       {{ this.buttonText() }}
     </button>
-    <span class="block"> [id: {{ id }}] </span>
   </form>
 </div>

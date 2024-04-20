@@ -17,7 +17,7 @@ export class UrlManagerComponent {
   constructor(private router: Router) {}
 
   handleDelete(id: number) {
-    console.log(`deleted: ${id}`);
+    alert(`deleted: ${id}`);
   }
 
   handleEdit(id: number) {
