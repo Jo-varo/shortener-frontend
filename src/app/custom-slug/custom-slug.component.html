@@ -1,33 +1,60 @@
 <div
   class="absolute top-0 left-0 bg-[#000000c0] w-full h-full flex justify-center items-center p-10"
   (click)="handleClose(); (false)"
+  [formGroup]="formCustomSlug"
 >
   <form
     (click)="$event.stopPropagation()"
     (submit)="handleSubmit()"
     class="bg-stone-50 px-10 py-8 border border-black rounded w-7/12 min-w-[300px] mb-96"
   >
+    <h1 class="font-bold text-3xl mb-6">
+      {{ this.modalTitle() }}
+    </h1>
     <div class="mb-6">
-      <label class="block">Enter the link to shorten</label>
+      <label class="block" for="originalUrl">Enter the link to shorten</label>
       <input
         type="text"
         placeholder="www.google.com"
         class="w-full border border-black rounded p-2"
+        [class.error]="!(originalUrl.valid || originalUrl.pristine)"
+        formControlName="originalUrl"
+        id="originalUrl"
       />
+      <p
+        class="error-input-message"
+        [hidden]="originalUrl.valid || originalUrl.pristine"
+      >
+        You should enter a valid url
+      </p>
     </div>
-    <div>
-      <label class="block">Enter the slug that you wish </label>
-      <span class="flex text-center items-center my-1">
+    <div class="mb-6">
+      <label class="block" for="customSlug"
+        >Enter the slug that you wish
+      </label>
+      <span class="flex text-center items-center mt-1">
         <p>https://our-host.com/</p>
         <input
           type="text"
           placeholder="MyLinkedIn2024"
           class="border border-black rounded px-2 py-1 ml-1"
+          [class.error]="!(customSlug.valid || customSlug.pristine)"
+          formControlName="customSlug"
+          id="customSlug"
+          maxlength="15"
         />
       </span>
+      <p
+        class="error-input-message"
+        [hidden]="customSlug.valid || customSlug.pristine"
+      >
+        You should enter a slug with maximum 15 characters
+      </p>
     </div>
-    <button class="py-2 px-4 bg-amber-200 hover:bg-amber-300 transition-colors duration-300 font-bold">
-      Short link
+    <button
+      class="py-2 px-4 bg-amber-200 hover:bg-amber-300 transition-colors duration-300 font-bold"
+    >
+      {{ this.buttonText() }}
     </button>
     <span class="block"> [id: {{ id }}] </span>
   </form>

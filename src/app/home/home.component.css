@@ -1,75 +1,13 @@
 #home {
-  min-height: 50vh;
-  display: flex;
-  flex-direction: column;
-  gap: 2rem;
-  justify-content: center;
-  align-items: center;
-}
-
-h1 {
-  font-size: 5rem;
-  letter-spacing: 0.125rem;
-}
-
-form {
-  display: flex;
-  justify-content: center;
-  flex-wrap: wrap;
-  gap: 1rem;
-  min-width: 700px;
-  margin-bottom: 2rem;
-}
-
-input,
-button {
-  border-radius: 0.4rem;
-  border: 1px solid black;
-}
-
-.shortener-link-group {
-  width: 100%;
-}
-
-.error {
-  color: red;
-  margin: 0.25rem 0.5rem;
-}
-
-input.invalid{
-  border: 2px red solid;
-}
-
-input {
-  padding: 0.5rem 1rem;
-  width: 100%;
-  font-size: 1.25rem;
+  @apply flex gap-8 flex-col justify-center items-center min-h-[50vh];
 }
 
 button {
+  @apply text-2xl block transition-colors duration-300 bg-yellow-400 hover:bg-yellow-500;
   padding: 0.625rem 2rem;
-  background-color: #f2dd6e;
-  cursor: pointer;
-  display: block;
-  font-size: 1.5rem;
-  transition: background-color 0.3s;
-}
-
-button:hover {
-  background-color: #e5b25d;
 }
 
 form ~ div {
-  text-align: center;
-  font-size: 1.5rem;
+  @apply text-center text-2xl;
 }
 
-div span {
-  display: block;
-  font-size: 2rem;
-  margin: 0.75rem 0;
-}
-
-div span a {
-  color: black;
-}

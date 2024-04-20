@@ -9,3 +9,11 @@ body {
   font-style: normal;
   font-variation-settings: "wdth" 100;
 }
+
+input.error {
+  @apply border-red-500 outline-4 focus:border-red-700 focus:outline-red-500;
+}
+
+.error-input-message {
+  @apply text-red-500 absolute text-sm;
+}

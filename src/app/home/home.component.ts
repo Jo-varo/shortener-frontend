@@ -6,7 +6,7 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { ORIGINAL_URL } from '../../helpers/constants';
+import { ORIGINAL_URL, URL_REGEX } from '../../helpers/constants';
 
 @Component({
   standalone: true,
@@ -19,12 +19,10 @@ export class HomeComponent {
 
   constantOriginalURL = ORIGINAL_URL;
 
-  urlPattern = /(https?:\/\/)?(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)/
-
   shortenerForm = new FormGroup({
     [ORIGINAL_URL]: new FormControl('', [
       Validators.required,
-      Validators.pattern(this.urlPattern),
+      Validators.pattern(URL_REGEX),
     ]),
   });
 
