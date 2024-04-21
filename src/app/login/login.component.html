@@ -21,6 +21,20 @@
     <p class="error-input-message">Write a valid mail</p>
     }
   </div>
+  <div class="text-lg w-full mb-2">
+    <label for="password" class="block">Password</label>
+    <input
+      type="password"
+      id="password"
+      placeholder="password"
+      class="w-full p-2 rounded border border-stone-200"
+      [class.error]="!(password.valid || password.pristine)"
+      formControlName="password"
+    />
+    @if(!(password.valid || password.pristine)){
+      <p class="error-input-message">Write a valid password</p>
+      }
+  </div>
   <button
     type="submit"
     class="rounded bg-amber-600 px-5 py-2 flex items-center gap-1 text-white transition-colors duration-300 hover:bg-amber-500 text-xl"
