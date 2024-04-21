@@ -1,6 +1,10 @@
 <div>
   <header class="flex justify-end mb-3">
-    <a class="py-2 px-4 bg-amber-200 hover:bg-amber-300 transition-colors duration-300" routerLink="./create">Short new url</a>
+    <a
+      class="py-2 px-4 bg-amber-200 hover:bg-amber-300 transition-colors duration-300"
+      routerLink="./create"
+      >Short new url</a
+    >
   </header>
   <table class="w-full shadow-xl">
     <thead class="text-lg">
@@ -17,9 +21,9 @@
         <td>https://chat.openai.com/</td>
         <td>https://our-host.com/5h0r7nd</td>
         <td>
-          <button (click)="handleEdit(url)">
+          <a [routerLink]="['/manage-urls', url]">
             <ng-icon name="bootstrapPencilFill" />
-          </button>
+          </a>
         </td>
         <td>
           <button (click)="handleDelete(url)">
@@ -31,4 +35,4 @@
     </tbody>
   </table>
 </div>
-<router-outlet/>
+<router-outlet />
