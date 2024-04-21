@@ -20,7 +20,7 @@ export class UrlManagerComponent {
     alert(`deleted: ${id}`);
   }
 
-  handleEdit(id: number) {
+  redirectTo(id: number) {
     this.router.navigate(['/manage-urls', id]);
   }
 }

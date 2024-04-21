@@ -11,7 +11,7 @@ tr td:nth-last-child(-n + 2) {
   @apply text-3xl;
 }
 
-td:nth-last-child(2) button {
+td:nth-last-child(2) a {
   @apply text-amber-400;
 }
 
@@ -19,11 +19,10 @@ td:nth-last-child(1) button {
   @apply text-red-500;
 }
 
-td button {
-  @apply block mx-auto;
-  transition: transform .3s;
+td button, td a {
+  @apply block mx-auto w-full text-center transition-transform duration-300;
 }
 
-td button:hover {
-  transform: scale(1.2);
+td button:hover, td a:hover {
+  @apply scale-125
 }
