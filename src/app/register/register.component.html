@@ -1,1 +1,63 @@
-<p>register works!</p>
+<form
+  class="bg-amber-50 border-2 rounded-lg border-amber-100 py-12 px-8 flex flex-col items-center w-1/2 min-w-[350px] mx-auto gap-5 drop-shadow-lg"
+  [formGroup]="formRegister"
+  (submit)="handleSubmit()"
+>
+  <header>
+    <ng-icon name="bootstrapPersonCircle" class="text-9xl text-blue-600" />
+    <h1 class="font-bold text-center mt-2 text-3xl">Register</h1>
+  </header>
+  <div class="text-lg w-full mb-2">
+    <label for="email" class="block">Type your email</label>
+    <input
+      type="email"
+      id="email"
+      placeholder="mail@mail.com"
+      class="w-full p-2 rounded border border-stone-200"
+      [class.error]="!(email.valid || email.pristine)"
+      formControlName="email"
+    />
+    @if(!(email.valid || email.pristine)){
+    <p class="error-input-message">Type a valid mail</p>
+    }
+  </div>
+  <div class="text-lg w-full mb-5">
+    <label for="password" class="block">Type a password</label>
+    <input
+      type="password"
+      id="password"
+      placeholder="At least eight characters"
+      class="w-full p-2 rounded border border-stone-200"
+      [class.error]="!(password.valid || password.pristine)"
+      formControlName="password"
+    />
+    @if(!(password.valid || password.pristine)){
+    <p class="error-input-message">
+      Minimum eight characters, at least one letter, one number and one special
+      character
+    </p>
+    }
+  </div>
+  <div class="text-lg w-full mb-6">
+    <label for="confirm-password" class="block">Type the password again</label>
+    <input
+      type="password"
+      id="confirm-password"
+      placeholder="Password confirmation"
+      class="w-full p-2 rounded border border-stone-200"
+      [class.error]="!(confirmPassword.valid || confirmPassword.pristine) || (formRegister.errors?.['mismatch'] && !confirmPassword.pristine)"
+      formControlName="confirmPassword"
+    />
+    @if(!(confirmPassword.valid || confirmPassword.pristine) ||
+    (formRegister.errors?.['mismatch'] && !confirmPassword.pristine) ){
+    <p class="error-input-message">Type the same password</p>
+    }
+  </div>
+  <button
+    type="submit"
+    class="rounded bg-amber-600 px-5 py-2 flex items-center gap-1 text-white transition-colors duration-300 hover:bg-amber-500 text-xl"
+    [disabled]="!formRegister.valid"
+  >
+    Register <ng-icon name="bootstrapArrowRight" class="mt-[1.5px]" />
+  </button>
+</form>
