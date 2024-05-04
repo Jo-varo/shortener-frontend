@@ -4,9 +4,13 @@
       <li>
         <a routerLink="/">Home</a>
       </li>
+      @if (!isLogged) {
       <li><a routerLink="/login">Login</a></li>
       <li><a routerLink="/register">Register</a></li>
+      } @if (isLogged) {
       <li><a routerLink="/manage-urls">Manage Urls</a></li>
+      <li><a routerLink="/logout">Logout</a></li>
+      }
     </ul>
   </nav>
 </header>

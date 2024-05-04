@@ -4,10 +4,8 @@
 
 button {
   @apply text-2xl block transition-colors duration-300 bg-yellow-400 hover:bg-yellow-500;
-  padding: 0.625rem 2rem;
 }
 
 form ~ div {
   @apply text-center text-2xl;
 }
-

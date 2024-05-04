@@ -11,6 +11,9 @@ import {
 } from '@ng-icons/bootstrap-icons';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { PASSWORD_REGEX } from '../../helpers/constants';
+import { saveTokensInLocalStorage } from '../../helpers/functions';
+import { AuthenticationService } from '../services/authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-login',
@@ -20,15 +23,15 @@ import { PASSWORD_REGEX } from '../../helpers/constants';
   viewProviders: [provideIcons({ bootstrapPersonCircle, bootstrapArrowRight })],
 })
 export class LoginComponent {
-  constructor(private fb: FormBuilder) {}
-  //Minimum eight characters, at least one letter, one number and one special character
+  constructor(
+    private fb: FormBuilder,
+    private authenticationService: AuthenticationService,
+    private router: Router
+  ) {}
 
   formLogin = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
-    password: [
-      '',
-      [Validators.required, Validators.pattern(PASSWORD_REGEX)],
-    ],
+    password: ['', [Validators.required, Validators.pattern(PASSWORD_REGEX)]],
   });
 
   get email() {
@@ -40,8 +43,31 @@ export class LoginComponent {
   }
 
   handleSubmit() {
-    if (!this.formLogin.valid) return alert('Form invalid')
-    console.log('submitted')
-    console.log(this.formLogin.value);
+    if (!this.formLogin.valid) return alert('Form invalid');
+
+    try {
+      const formData = this.formLogin.value;
+      this.authenticationService
+        .login({
+          email: formData.email!,
+          password: formData.password!,
+        })
+        .subscribe({
+          next: (data) => {
+            saveTokensInLocalStorage({
+              access: data.access_token,
+              refresh: data.refresh_token,
+            });
+            console.log('aca');
+            this.router.navigate(['/']);
+          },
+          error: (error) => {
+            alert('error at log in')
+            throw new Error('error at log in');
+          },
+        });
+    } catch (error) {
+      alert('error at log in');
+    }
   }
 }

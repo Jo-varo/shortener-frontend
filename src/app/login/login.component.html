@@ -21,7 +21,7 @@
     <p class="error-input-message">Write a valid mail</p>
     }
   </div>
-  <div class="text-lg w-full mb-2">
+  <div class="text-lg w-full mb-6">
     <label for="password" class="block">Password</label>
     <input
       type="password"
@@ -32,8 +32,11 @@
       formControlName="password"
     />
     @if(!(password.valid || password.pristine)){
-      <p class="error-input-message">Write a valid password</p>
-      }
+    <p class="error-input-message">
+      Minimum eight characters, at least one letter, one number and one special
+      character
+    </p>
+    }
   </div>
   <button
     type="submit"
