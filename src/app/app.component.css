@@ -2,10 +2,12 @@ header {
   background-color: #f2dd6e;
 }
 
-nav ul li a {
+nav ul li a,
+nav ul li button {
   @apply block text-xl transition-transform duration-300;
 }
 
-nav ul li a:hover {
+nav ul li a:hover,
+nav ul li button:hover {
   @apply scale-[1.15];
 }

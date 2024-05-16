@@ -41,14 +41,14 @@
           [class.error]="!(customSlug.valid || customSlug.pristine)"
           formControlName="customSlug"
           id="customSlug"
-          maxlength="15"
+          maxlength="20"
         />
       </span>
       <p
         class="error-input-message"
         [hidden]="customSlug.valid || customSlug.pristine"
       >
-        You should enter a slug with maximum 15 characters
+        You should enter a slug with minimum 5 and maximum 20 characters
       </p>
     </div>
     <button
