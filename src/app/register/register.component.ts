@@ -12,6 +12,8 @@ import {
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { PASSWORD_REGEX } from '../../helpers/constants';
 import { matchValuesValidator } from './validator';
+import { AuthenticationService } from '../services/authentication.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-register',
@@ -21,7 +23,11 @@ import { matchValuesValidator } from './validator';
   viewProviders: [provideIcons({ bootstrapPersonCircle, bootstrapArrowRight })],
 })
 export class RegisterComponent {
-  constructor(private fb: FormBuilder) {}
+  constructor(
+    private fb: FormBuilder,
+    private authenticationService: AuthenticationService,
+    private router: Router
+  ) {}
 
   formRegister = this.fb.group(
     {
@@ -50,14 +56,32 @@ export class RegisterComponent {
   }
 
   handleSubmit() {
-    if (!this.formRegister.valid) return alert('invalid form');
+    if (!this.formRegister.valid) return alert('Invalid form');
 
-    const formData = this.formRegister.value;
-    if (formData.password !== formData.confirmPassword)
-      throw new Error("Passwords don't match");
+    try {
+      const formData = this.formRegister.value;
+      if (formData.password !== formData.confirmPassword) {
+        throw new Error("Passwords don't match");
+      }
+      const registerFormData = {
+        email: formData.email!,
+        password: formData.password!,
+      };
 
-    //Send registerData to endpoint
-    const registerData = { email: formData.email, password: formData.password };
-    console.log(registerData);
+      this.authenticationService.register(registerFormData).subscribe({
+        next: () => {
+          alert('User created');
+          this.formRegister.reset();
+          this.router.navigate(['/']);
+        },
+        error: (error) => {
+          alert('error at register');
+          console.log(error)
+          throw new Error('error at register');
+        },
+      });
+    } catch (error) {
+      alert(error);
+    }
   }
 }

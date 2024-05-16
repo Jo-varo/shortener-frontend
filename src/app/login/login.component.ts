@@ -31,7 +31,7 @@ export class LoginComponent {
 
   formLogin = this.fb.group({
     email: ['', [Validators.required, Validators.email]],
-    password: ['', [Validators.required, Validators.pattern(PASSWORD_REGEX)]],
+    password: ['', [Validators.required]],
   });
 
   get email() {
@@ -47,25 +47,25 @@ export class LoginComponent {
 
     try {
       const formData = this.formLogin.value;
-      this.authenticationService
-        .login({
-          email: formData.email!,
-          password: formData.password!,
-        })
-        .subscribe({
-          next: (data) => {
-            saveTokensInLocalStorage({
-              access: data.access_token,
-              refresh: data.refresh_token,
-            });
-            console.log('aca');
-            this.router.navigate(['/']);
-          },
-          error: (error) => {
-            alert('error at log in')
-            throw new Error('error at log in');
-          },
-        });
+      const loginFormData = {
+        email: formData.email!,
+        password: formData.password!,
+      };
+
+      this.authenticationService.login(loginFormData).subscribe({
+        next: (data) => {
+          saveTokensInLocalStorage({
+            access: data.access_token,
+            refresh: data.refresh_token,
+          });
+          this.router.navigate(['/']);
+          this.authenticationService.loggedInChange(true);
+        },
+        error: (error) => {
+          alert('error at log in');
+          throw new Error('error at log in');
+        },
+      });
     } catch (error) {
       alert('error at log in');
     }

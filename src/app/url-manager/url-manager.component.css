@@ -7,8 +7,13 @@ td {
   @apply p-3;
 }
 
+/* Last 2 columns */
 tr td:nth-last-child(-n + 2) {
   @apply text-3xl;
+}
+
+a {
+  @apply transition-colors duration-300 hover:text-blue-600;
 }
 
 td:nth-last-child(2) a {
@@ -19,10 +24,12 @@ td:nth-last-child(1) button {
   @apply text-red-500;
 }
 
-td button, td a {
+td button,
+td:nth-last-child(2) a {
   @apply block mx-auto w-full text-center transition-transform duration-300;
 }
 
-td button:hover, td a:hover {
-  @apply scale-125
+td button:hover,
+td a:hover {
+  @apply scale-125;
 }
