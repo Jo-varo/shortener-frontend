@@ -11,7 +11,7 @@ export const saveTokensInLocalStorage = ({ refresh, access }: ITokens) => {
 };
 
 export const getTokensFromLocalStorage = (): ITokens => {
-  const tokens = JSON.parse(localStorage.getItem(TOKENS) ?? '{}');
+  const tokens = JSON.parse(localStorage.getItem(TOKENS)!);
   return tokens;
 };
 

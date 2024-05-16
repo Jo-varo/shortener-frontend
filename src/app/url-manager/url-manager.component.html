@@ -6,27 +6,34 @@
       >Short new url</a
     >
   </header>
+  @if(urls.length>0){
   <table class="w-full shadow-xl">
     <thead class="text-lg">
       <tr>
         <th>Original Link</th>
+        <th>Shorted Link</th>
         <th>Custom Slug</th>
         <th>Edit</th>
         <th>Delete</th>
       </tr>
     </thead>
     <tbody>
-      @for (url of urls; track url) {
+      @for (url of urls; track url.id) {
       <tr>
-        <td>https://chat.openai.com/</td>
-        <td>https://our-host.com/5h0r7nd</td>
+        <td>{{ url.original_url }}</td>
         <td>
-          <a [routerLink]="['/manage-urls', url]">
+          <a href="{{ apiPreffix }}/{{ url.slug }}" target="_blank">{{
+            apiPreffix + "/" + url.slug
+          }}</a>
+        </td>
+        <td>{{ url.slug }}</td>
+        <td>
+          <a [routerLink]="['/manage-urls', url.id]">
             <ng-icon name="bootstrapPencilFill" />
           </a>
         </td>
         <td>
-          <button (click)="handleDelete(url)">
+          <button (click)="handleDelete(url.id)">
             <ng-icon name="bootstrapXLg" />
           </button>
         </td>
@@ -34,5 +41,8 @@
       }
     </tbody>
   </table>
+  }@else{
+  <h3 class="text-3xl">There are no urls yet</h3>
+  }
 </div>
 <router-outlet />
