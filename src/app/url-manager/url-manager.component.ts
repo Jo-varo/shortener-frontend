@@ -6,6 +6,7 @@ import { UrlService } from '../services/url.service';
 import { URLListResponse } from '../services/url.type';
 import { environment } from '../../environments/environment.development';
 import { Subscription } from 'rxjs';
+import { formatLengthOriginalURL } from '../../helpers/functions';
 
 @Component({
   selector: 'app-url-manager',
@@ -19,6 +20,7 @@ export class UrlManagerComponent implements OnInit, OnDestroy {
   urls: URLListResponse[] = [];
   urlsSubscription!: Subscription;
   apiPreffix = environment.apiUrlPreffix;
+  formatOriginalURL = formatLengthOriginalURL;
 
   constructor(private router: Router, private urlService: UrlService) {}
 

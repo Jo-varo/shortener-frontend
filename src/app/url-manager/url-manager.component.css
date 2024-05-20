@@ -13,7 +13,7 @@ tr td:nth-last-child(-n + 2) {
 }
 
 tr a {
-  @apply transition-colors duration-300 text-blue-800 font-bold hover:text-blue-600;
+  @apply transition-colors duration-300 text-blue-800 hover:text-blue-600;
 }
 
 td:nth-last-child(2) a {

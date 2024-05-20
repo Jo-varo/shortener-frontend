@@ -7,8 +7,9 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Subscription } from 'rxjs';
-import { URL_REGEX } from '../../helpers/constants';
+import { ORIGINAL_URL } from '../../helpers/constants';
 import { UrlService } from '../services/url.service';
+import { originalUrlValidators } from '../../validators/FormValidators';
 
 @Component({
   selector: 'app-custom-slug',
@@ -32,7 +33,7 @@ export class CustomSlugComponent implements OnInit, OnDestroy {
   ) {}
 
   formCustomSlug = this.fb.group({
-    originalUrl: ['', [Validators.required, Validators.pattern(URL_REGEX)]],
+    [ORIGINAL_URL]: ['', originalUrlValidators],
     customSlug: [
       '',
       [Validators.required, Validators.minLength(5), Validators.maxLength(20)],
@@ -40,7 +41,7 @@ export class CustomSlugComponent implements OnInit, OnDestroy {
   });
 
   get originalUrl() {
-    return this.formCustomSlug.get('originalUrl') as FormControl;
+    return this.formCustomSlug.get(ORIGINAL_URL) as FormControl;
   }
 
   get customSlug() {
@@ -70,7 +71,7 @@ export class CustomSlugComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.routeSubscription?.unsubscribe();
-    document.querySelector('body')!.style.removeProperty('overflow')
+    document.querySelector('body')!.style.removeProperty('overflow');
   }
 
   handleSubmit() {
@@ -79,7 +80,7 @@ export class CustomSlugComponent implements OnInit, OnDestroy {
     const formData = this.formCustomSlug.value;
 
     const body = {
-      originalUrl: formData.originalUrl!,
+      originalUrl: formData[ORIGINAL_URL]!,
       slug: formData.customSlug!,
     };
 

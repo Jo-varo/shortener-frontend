@@ -3,16 +3,15 @@ import {
   FormControl,
   FormGroup,
   ReactiveFormsModule,
-  Validators,
 } from '@angular/forms';
-import { ORIGINAL_URL, URL_REGEX } from '../../helpers/constants';
+import { ORIGINAL_URL } from '../../helpers/constants';
 import { UrlService } from '../services/url.service';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { bootstrapClipboard2Fill } from '@ng-icons/bootstrap-icons';
 import { environment } from '../../environments/environment.development';
 import { formatLengthOriginalURL } from '../../helpers/functions';
 import { blink, slideDown, slideUp } from './home.animations';
-
+import { originalUrlValidators } from '../../validators/FormValidators';
 
 @Component({
   standalone: true,
@@ -37,10 +36,7 @@ export class HomeComponent {
   constructor(private urlService: UrlService) {}
 
   shortenerForm = new FormGroup({
-    [ORIGINAL_URL]: new FormControl('', [
-      Validators.required,
-      Validators.pattern(URL_REGEX),
-    ]),
+    [ORIGINAL_URL]: new FormControl('', originalUrlValidators),
   });
 
   get originalURL() {
@@ -65,6 +61,7 @@ export class HomeComponent {
           this.shortenerForm.reset();
         },
         error: (error) => {
+          console.log(error);
           alert('error at getting shortened url');
         },
       });
