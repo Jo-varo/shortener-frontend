@@ -10,6 +10,7 @@ import {
 } from './url.type';
 import { getTokensFromLocalStorage } from '../../helpers/functions';
 import { AuthenticationService } from './authentication.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +20,8 @@ export class UrlService {
 
   constructor(
     private http: HttpClient,
-    private authenticationService: AuthenticationService
+    private authenticationService: AuthenticationService,
+    private toastr: ToastrService
   ) {}
 
   shortLink({
@@ -70,10 +72,13 @@ export class UrlService {
         next: (data) => {
           this.linksList.next(data);
         },
-        error: (error) => console.log('error at getting list of links'),
+        error: (error) => {
+          console.log(error);
+          throw new Error('Error at getting urls');
+        },
       });
     } catch (e) {
-      alert('error');
+      this.toastr.error('Error at getting links', 'Error');
       throw new Error('Error at getting urls');
     }
   }
@@ -88,24 +93,16 @@ export class UrlService {
     }
   }
 
-  deleteLink(id: number) {
+  deleteLink(id: number): Observable<DeletedURLResponse> {
     try {
       const accessToken = getTokensFromLocalStorage()['access'];
       const header = new HttpHeaders().set(
         'Authorization',
         `Bearer ${accessToken}`
       );
-      this.http
-        .delete(environment.apiUrl + '/url/' + id, {
-          headers: header,
-        })
-        .subscribe({
-          next: (data) => {
-            alert('deleted ' + id);
-            this.getLinksList();
-          },
-          error: (error) => console.log(error),
-        });
+      return this.http.delete(environment.apiUrl + '/url/' + id, {
+        headers: header,
+      }) as Observable<DeletedURLResponse>;
     } catch (e) {
       throw new Error('Error at deleting url');
     }

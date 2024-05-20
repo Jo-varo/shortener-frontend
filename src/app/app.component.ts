@@ -7,6 +7,7 @@ import {
 } from '../helpers/functions';
 import { AuthenticationService } from './services/authentication.service';
 import { Subscription } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-root',
@@ -23,14 +24,15 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(
     private authenticationService: AuthenticationService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
     const token = getTokensFromLocalStorage();
     this.loggedInSubscription = this.authenticationService.isLoggedIn.subscribe(
       (loggedInValue) => {
-        console.log({ loggedInValue });
+        console.log({ time: Date.now(), loggedInValue });
         this.isLoggedIn = loggedInValue;
       }
     );
@@ -43,13 +45,12 @@ export class AppComponent implements OnInit, OnDestroy {
 
   handleLogout() {
     this.authenticationService.logout().subscribe({
-      next: (data) => {
-        console.log(data);
-        alert('Succesful logged out');
+      next: (_) => {
+        this.toastr.success('Logged out', 'Success');
       },
       error: (error) => {
         console.log(error);
-        alert('error at logout');
+        this.toastr.error('Error at logout', 'Error');
       },
     });
     removeTokensFromLocalStorage();

@@ -7,6 +7,7 @@ import { URLListResponse } from '../services/url.type';
 import { environment } from '../../environments/environment.development';
 import { Subscription } from 'rxjs';
 import { formatLengthOriginalURL } from '../../helpers/functions';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-url-manager',
@@ -22,17 +23,29 @@ export class UrlManagerComponent implements OnInit, OnDestroy {
   apiPreffix = environment.apiUrlPreffix;
   formatOriginalURL = formatLengthOriginalURL;
 
-  constructor(private router: Router, private urlService: UrlService) {}
+  constructor(private urlService: UrlService, private toastr: ToastrService) {}
 
   handleDelete(id: number) {
-    alert(`deleted: ${id}`);
-    this.urlService.deleteLink(id);
+    try {
+      this.urlService.deleteLink(id).subscribe({
+        next: (_) => {
+          this.toastr.info('The url was deleted', `Deleted ${id}`);
+          this.urlService.getLinksList();
+        },
+        error: (error) => {
+          console.log(error)
+          throw new Error(error);
+        },
+      });
+    } catch (error) {
+      this.toastr.error('An error occurred at trying to delete', 'Error');
+    }
   }
 
   ngOnInit(): void {
     this.urlService.getLinksList();
     this.urlsSubscription = this.urlService.linksList.subscribe({
-      next: (data) => (this.urls = data)
+      next: (data) => (this.urls = data),
     });
   }
 

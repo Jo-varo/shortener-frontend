@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs';
 import { ORIGINAL_URL } from '../../helpers/constants';
 import { UrlService } from '../services/url.service';
 import { originalUrlValidators } from '../../validators/FormValidators';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-custom-slug',
@@ -29,7 +30,8 @@ export class CustomSlugComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private router: Router,
     private fb: FormBuilder,
-    private urlService: UrlService
+    private urlService: UrlService,
+    private toastr: ToastrService
   ) {}
 
   formCustomSlug = this.fb.group({
@@ -63,7 +65,7 @@ export class CustomSlugComponent implements OnInit, OnDestroy {
           this.originalURL.setValue(data.original_url);
           this.customSlug.setValue(data.slug);
         },
-        error: (error) => alert('error at getting url'),
+        error: (error) => this.toastr.error('Error', 'Error at getting url'),
       });
     }
     document.querySelector('body')!.style.overflow = 'hidden';
@@ -75,7 +77,10 @@ export class CustomSlugComponent implements OnInit, OnDestroy {
   }
 
   handleSubmit() {
-    if (!this.formCustomSlug.valid) return alert('Form invalid');
+    if (!this.formCustomSlug.valid) {
+      this.toastr.warning('Fill the fields correctly', 'Invalid Form');
+      return;
+    }
 
     const formData = this.formCustomSlug.value;
 
@@ -85,26 +90,27 @@ export class CustomSlugComponent implements OnInit, OnDestroy {
     };
 
     if (this.modalType === 'Create') {
-      return this.urlService.shortLink(body).subscribe({
-        next: (data) => {
-          alert('created');
-          console.log(data);
+      this.urlService.shortLink(body).subscribe({
+        next: (_) => {
+          this.toastr.success('New shortened url was created', 'Created');
           this.urlService.getLinksList();
           this.closeModal();
         },
         error: (error) => console.log(error),
       });
+      return;
     }
 
     //Editing link/slug
     this.urlService.editLink({ id: this.id, ...body }).subscribe({
-      next: (data) => {
-        alert('edited' + this.id);
-        console.log(data);
+      next: (_) => {
+        this.toastr.success(`The resource ${this.id} was edited`, 'Success');
         this.urlService.getLinksList();
         this.closeModal();
       },
-      error: (error) => console.log(error),
+      error: (error) => {
+        this.toastr.error(error.error.error, 'Error');
+      },
     });
   }
 

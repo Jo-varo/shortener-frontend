@@ -1,9 +1,5 @@
 import { Component } from '@angular/core';
-import {
-  FormControl,
-  FormGroup,
-  ReactiveFormsModule,
-} from '@angular/forms';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import { ORIGINAL_URL } from '../../helpers/constants';
 import { UrlService } from '../services/url.service';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
@@ -12,6 +8,7 @@ import { environment } from '../../environments/environment.development';
 import { formatLengthOriginalURL } from '../../helpers/functions';
 import { blink, slideDown, slideUp } from './home.animations';
 import { originalUrlValidators } from '../../validators/FormValidators';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   standalone: true,
@@ -33,7 +30,7 @@ export class HomeComponent {
   //Variable to trigger blink animation
   incrementable = 0;
 
-  constructor(private urlService: UrlService) {}
+  constructor(private urlService: UrlService, private toastr: ToastrService) {}
 
   shortenerForm = new FormGroup({
     [ORIGINAL_URL]: new FormControl('', originalUrlValidators),
@@ -44,7 +41,10 @@ export class HomeComponent {
   }
 
   handleSubmit() {
-    if (!this.shortenerForm.valid) return alert('Please, enter a valid url');
+    if (!this.shortenerForm.valid) {
+      this.toastr.warning('Enter a valid url', 'Invalid URL');
+      return;
+    }
 
     const originalUrl = this.shortenerForm.value[ORIGINAL_URL]!;
 
@@ -57,12 +57,12 @@ export class HomeComponent {
           this.shortenedLink = `${environment.apiUrlPreffix}/${data.slug}`;
           this.shortedOriginalUrl = originalUrl;
           this.incrementable++;
-          alert('Shorted link');
+          this.toastr.success('Shorted link', 'Success');
           this.shortenerForm.reset();
         },
         error: (error) => {
+          this.toastr.error('An error has occured at shortening link', 'Error');
           console.log(error);
-          alert('error at getting shortened url');
         },
       });
   }
@@ -71,9 +71,9 @@ export class HomeComponent {
     (async () => {
       try {
         await navigator.clipboard.writeText(this.shortenedLink);
-        alert('url copied');
+        this.toastr.info('Shorted url copied', 'Copied');
       } catch (error) {
-        alert('error at copying');
+        this.toastr.error('Error at copying', 'Error');
       }
     })();
   }

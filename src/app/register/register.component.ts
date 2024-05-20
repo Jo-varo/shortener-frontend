@@ -14,6 +14,7 @@ import { PASSWORD_REGEX } from '../../helpers/constants';
 import { matchValuesValidator } from './validator';
 import { AuthenticationService } from '../services/authentication.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-register',
@@ -26,7 +27,8 @@ export class RegisterComponent {
   constructor(
     private fb: FormBuilder,
     private authenticationService: AuthenticationService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {}
 
   formRegister = this.fb.group(
@@ -56,7 +58,10 @@ export class RegisterComponent {
   }
 
   handleSubmit() {
-    if (!this.formRegister.valid) return alert('Invalid form');
+    if (!this.formRegister.valid) {
+      this.toastr.warning('Some fields have errors', 'Invalid form');
+      return;
+    }
 
     try {
       const formData = this.formRegister.value;
@@ -70,18 +75,19 @@ export class RegisterComponent {
 
       this.authenticationService.register(registerFormData).subscribe({
         next: () => {
-          alert('User created');
+          this.toastr.success('The user was created', 'Created');
           this.formRegister.reset();
           this.router.navigate(['/']);
         },
         error: (error) => {
-          alert('error at register');
-          console.log(error)
-          throw new Error('error at register');
+          this.toastr.error('Error at registering new user', 'Error');
+          console.log(error);
+          throw new Error('Error at register');
         },
       });
     } catch (error) {
-      alert(error);
+      this.toastr.error('An error has occurred at registering', 'Error');
+      console.log(error);
     }
   }
 }

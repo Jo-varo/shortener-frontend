@@ -10,10 +10,10 @@ import {
   bootstrapArrowRight,
 } from '@ng-icons/bootstrap-icons';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
-import { PASSWORD_REGEX } from '../../helpers/constants';
 import { saveTokensInLocalStorage } from '../../helpers/functions';
 import { AuthenticationService } from '../services/authentication.service';
 import { Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'app-login',
@@ -26,7 +26,8 @@ export class LoginComponent {
   constructor(
     private fb: FormBuilder,
     private authenticationService: AuthenticationService,
-    private router: Router
+    private router: Router,
+    private toastr: ToastrService
   ) {}
 
   formLogin = this.fb.group({
@@ -43,7 +44,10 @@ export class LoginComponent {
   }
 
   handleSubmit() {
-    if (!this.formLogin.valid) return alert('Form invalid');
+    if (!this.formLogin.valid) {
+      this.toastr.warning('Some fields are incomplete', 'Invalid Form');
+      return;
+    }
 
     try {
       const formData = this.formLogin.value;
@@ -62,12 +66,12 @@ export class LoginComponent {
           this.authenticationService.loggedInChange(true);
         },
         error: (error) => {
-          alert('error at log in');
+          this.toastr.error('Error at log in', 'Error');
           throw new Error('error at log in');
         },
       });
     } catch (error) {
-      alert('error at log in');
+      this.toastr.error('Error at log in', 'Error');
     }
   }
 }
