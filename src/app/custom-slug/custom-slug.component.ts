@@ -40,7 +40,7 @@ export class CustomSlugComponent implements OnInit, OnDestroy {
     ],
   });
 
-  get originalUrl() {
+  get originalURL() {
     return this.formCustomSlug.get(ORIGINAL_URL) as FormControl;
   }
 
@@ -60,7 +60,7 @@ export class CustomSlugComponent implements OnInit, OnDestroy {
       this.modalType = 'Edit';
       this.urlService.getLink({ id: this.id }).subscribe({
         next: (data) => {
-          this.originalUrl.setValue(data.original_url);
+          this.originalURL.setValue(data.original_url);
           this.customSlug.setValue(data.slug);
         },
         error: (error) => alert('error at getting url'),

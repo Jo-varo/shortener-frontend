@@ -12,18 +12,18 @@
       {{ this.modalTitle() }}
     </h1>
     <div class="mb-6">
-      <label class="block" for="originalUrl">Enter the link to shorten</label>
+      <label class="block" for="originalURL">Enter the link to shorten</label>
       <input
         type="text"
         placeholder="www.google.com"
         class="w-full border border-black rounded p-2"
-        [class.error]="!(originalUrl.valid || originalUrl.pristine)"
-        formControlName="originalUrl"
-        id="originalUrl"
+        [class.error]="!(originalURL.valid || originalURL.pristine)"
+        formControlName="originalURL"
+        id="originalURL"
       />
       <p
         class="error-input-message"
-        [hidden]="originalUrl.valid || originalUrl.pristine"
+        [hidden]="originalURL.valid || originalURL.pristine"
       >
         You should enter a valid url
       </p>
