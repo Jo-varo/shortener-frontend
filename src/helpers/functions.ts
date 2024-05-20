@@ -18,3 +18,7 @@ export const getTokensFromLocalStorage = (): ITokens => {
 export const removeTokensFromLocalStorage = () => {
   localStorage.removeItem(TOKENS);
 };
+
+export const formatLengthOriginalURL = (url: string) => {
+  return url.length > 50 ? `${url.substring(0, 47)}...` : url;
+};

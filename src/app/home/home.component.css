@@ -1,5 +1,10 @@
+:host {
+  height: 100%;
+  display: block;
+}
+
 #home {
-  @apply flex gap-8 flex-col justify-center items-center min-h-[50vh];
+  @apply flex flex-col justify-center items-center min-h-[50%] pt-16;
 }
 
 button {
@@ -8,4 +13,8 @@ button {
 
 form ~ div {
   @apply text-center text-2xl;
+}
+
+a {
+  @apply hover:text-blue-500 transition-colors duration-300;
 }

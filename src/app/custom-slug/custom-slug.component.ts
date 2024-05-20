@@ -65,10 +65,12 @@ export class CustomSlugComponent implements OnInit, OnDestroy {
         error: (error) => alert('error at getting url'),
       });
     }
+    document.querySelector('body')!.style.overflow = 'hidden';
   }
 
   ngOnDestroy() {
     this.routeSubscription?.unsubscribe();
+    document.querySelector('body')!.style.removeProperty('overflow')
   }
 
   handleSubmit() {
@@ -86,6 +88,7 @@ export class CustomSlugComponent implements OnInit, OnDestroy {
         next: (data) => {
           alert('created');
           console.log(data);
+          this.urlService.getLinksList();
           this.closeModal();
         },
         error: (error) => console.log(error),
@@ -97,6 +100,7 @@ export class CustomSlugComponent implements OnInit, OnDestroy {
       next: (data) => {
         alert('edited' + this.id);
         console.log(data);
+        this.urlService.getLinksList();
         this.closeModal();
       },
       error: (error) => console.log(error),

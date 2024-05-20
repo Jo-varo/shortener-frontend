@@ -1,6 +1,6 @@
 th,
 td {
-  @apply border border-gray-300 p-2;
+  @apply border border-neutral-400 p-2;
 }
 
 td {
@@ -12,8 +12,8 @@ tr td:nth-last-child(-n + 2) {
   @apply text-3xl;
 }
 
-a {
-  @apply transition-colors duration-300 hover:text-blue-600;
+tr a {
+  @apply transition-colors duration-300 text-blue-800 font-bold hover:text-blue-600;
 }
 
 td:nth-last-child(2) a {
@@ -32,4 +32,8 @@ td:nth-last-child(2) a {
 td button:hover,
 td a:hover {
   @apply scale-125;
+}
+
+tr td.url {
+  @apply text-base;
 }

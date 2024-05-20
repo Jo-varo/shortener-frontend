@@ -7,11 +7,10 @@
     >
   </header>
   @if(urls.length>0){
-  <table class="w-full shadow-xl">
+  <table class="w-full shadow-xl table-fixed md:table-auto">
     <thead class="text-lg">
       <tr>
-        <th>Original Link</th>
-        <th>Shorted Link</th>
+        <th>Original Link / Shorted Link</th>
         <th>Custom Slug</th>
         <th>Edit</th>
         <th>Delete</th>
@@ -20,13 +19,16 @@
     <tbody>
       @for (url of urls; track url.id) {
       <tr>
-        <td>{{ url.original_url }}</td>
-        <td>
+        <td class="url">
+          {{ url.original_url }}
+          <hr class="border-gray-300 my-2"/>
           <a href="{{ apiPreffix }}/{{ url.slug }}" target="_blank">{{
             apiPreffix + "/" + url.slug
           }}</a>
         </td>
-        <td>{{ url.slug }}</td>
+        <td>
+          {{ url.slug }}
+        </td>
         <td>
           <a [routerLink]="['/manage-urls', url.id]">
             <ng-icon name="bootstrapPencilFill" />

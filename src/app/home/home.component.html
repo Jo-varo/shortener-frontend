@@ -1,58 +1,52 @@
 <div id="home">
-  <h1 class="text-7xl tracking-widest">Shortener</h1>
-  <div>
-    <form
-      [formGroup]="shortenerForm"
-      (submit)="handleSubmit()"
-      class="flex justify-center flex-wrap gap-4 min-w-[700px] mb-14"
-    >
-      <div class="w-full mb-2">
-        <input
-          type="text"
-          placeholder="https://www.google.com/"
-          required
-          class="rounded border border-black py-2 px-4 w-full text-xl"
-          [class.error]="!(originalURL.valid || originalURL.pristine)"
-          formControlName="{{ constantOriginalURL }}"
-        />
-        <p
-          [hidden]="originalURL.valid || originalURL.pristine"
-          class="error-input-message"
-        >
-          A valid url is required
-        </p>
-      </div>
-      <button type="submit" class="rounded border border-black py-2 px-8">
-        Short link
-      </button>
-    </form>
-    <!-- TODO: Add a blink at placing a new url -->
-    @if (shortenedLink) {
-    <div>
-      <span>
-        <h3 class="my-3">Original url</h3>
-        <a class="text-3xl">
-          {{ shortedOriginalUrl }}
-        </a>
-      </span>
-      <span class="block mt-8">
-        <h3 class="my-3">Shortened link</h3>
-        <span
-          class="rounded-md border border-neutral-400 py-4 px-5 flex items-center justify-between"
-        >
-          <a
-            class="text-4xl hover:text-blue-500 transition-colors duration-300"
-            href="{{ shortenedLink }}"
-            target="_blank"
-          >
-            {{ shortenedLink }}
-          </a>
-          <button (click)="copyShortedLink()" class="rounded py-3 px-5">
-            <ng-icon name="bootstrapClipboard2Fill" class="text-3xl" />
-          </button>
-        </span>
-      </span>
+  <form
+    [formGroup]="shortenerForm"
+    (submit)="handleSubmit()"
+    [@slideUp]="shortenedLink ? 'up' : 'down'"
+    class="flex justify-center flex-wrap gap-4 min-w-[700px]"
+  >
+    <div class="w-full mb-2">
+      <h1 class="text-7xl tracking-widest text-center mb-8">Shortener</h1>
+      <input
+        type="text"
+        placeholder="https://www.google.com/"
+        required
+        class="rounded border border-black py-2 px-4 w-full text-xl"
+        [class.error]="!(originalURL.valid || originalURL.pristine)"
+        formControlName="{{ constantOriginalURL }}"
+      />
+      <p
+        [hidden]="originalURL.valid || originalURL.pristine"
+        class="error-input-message"
+      >
+        A valid url is required
+      </p>
     </div>
-    }
+    <button type="submit" class="rounded border border-black py-2 px-8">
+      Short link
+    </button>
+  </form>
+  @if(shortenedLink){
+  <div @slideDown class="mt-14" [@blink]="incrementable">
+    <span>
+      <h3 class="my-3">Original url</h3>
+      <a class="text-3xl" href="{{ shortedOriginalUrl }}" target="_blank">
+        {{ formatOriginalURL(shortedOriginalUrl) }}
+      </a>
+    </span>
+    <span class="block mt-8">
+      <h3 class="my-3">Shortened link</h3>
+      <span
+        class="rounded-md border border-neutral-400 py-4 px-5 flex items-center justify-between"
+      >
+        <a class="text-4xl" href="{{ shortenedLink }}" target="_blank">
+          {{ shortenedLink }}
+        </a>
+        <button (click)="copyShortedLink()" class="rounded py-3 px-5">
+          <ng-icon name="bootstrapClipboard2Fill" class="text-3xl" />
+        </button>
+      </span>
+    </span>
   </div>
+  }
 </div>

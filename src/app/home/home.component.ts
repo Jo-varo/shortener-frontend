@@ -10,6 +10,9 @@ import { UrlService } from '../services/url.service';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { bootstrapClipboard2Fill } from '@ng-icons/bootstrap-icons';
 import { environment } from '../../environments/environment.development';
+import { formatLengthOriginalURL } from '../../helpers/functions';
+import { blink, slideDown, slideUp } from './home.animations';
+
 
 @Component({
   standalone: true,
@@ -18,13 +21,18 @@ import { environment } from '../../environments/environment.development';
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
   viewProviders: [provideIcons({ bootstrapClipboard2Fill })],
+  animations: [slideDown, slideUp, blink],
 })
 export class HomeComponent {
   constantOriginalURL = ORIGINAL_URL;
+  formatOriginalURL = formatLengthOriginalURL;
 
   //Displayed values at submitting
   shortedOriginalUrl = '';
   shortenedLink = '';
+
+  //Variable to trigger blink animation
+  incrementable = 0;
 
   constructor(private urlService: UrlService) {}
 
@@ -52,6 +60,7 @@ export class HomeComponent {
         next: (data) => {
           this.shortenedLink = `${environment.apiUrlPreffix}/${data.slug}`;
           this.shortedOriginalUrl = originalUrl;
+          this.incrementable++;
           alert('Shorted link');
           this.shortenerForm.reset();
         },
