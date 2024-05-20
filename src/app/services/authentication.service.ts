@@ -1,7 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { environment } from '../../environments/environment.development';
-import { Observable, Subject } from 'rxjs';
+import { BehaviorSubject, Observable } from 'rxjs';
 import {
   AuthParams,
   LoginResponse,
@@ -14,7 +14,7 @@ import { getTokensFromLocalStorage } from '../../helpers/functions';
   providedIn: 'root',
 })
 export class AuthenticationService {
-  isLoggedIn: Subject<boolean> = new Subject<boolean>();
+  isLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
   constructor(private http: HttpClient) {}
 
@@ -47,7 +47,6 @@ export class AuthenticationService {
     }
   }
 
-  //review this endpoint, body and response
   register({ email, password }: AuthParams): Observable<RegisterResponse> {
     return this.http.post(
       environment.apiUrl + '/register',

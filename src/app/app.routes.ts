@@ -5,6 +5,7 @@ import { PageNotFoundComponent } from './page-not-found/page-not-found.component
 import { UrlManagerComponent } from './url-manager/url-manager.component';
 import { CustomSlugComponent } from './custom-slug/custom-slug.component';
 import { RegisterComponent } from './register/register.component';
+import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
   { path: '', component: HomeComponent, title: 'Shortener' },
@@ -14,6 +15,7 @@ export const routes: Routes = [
     path: 'manage-urls',
     component: UrlManagerComponent,
     title: 'URL Manager',
+    canActivate: [authGuard],
     children: [
       {
         path: 'create',
