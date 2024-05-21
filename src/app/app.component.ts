@@ -1,9 +1,8 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { HomeComponent } from './home/home.component';
 import {
   getTokensFromLocalStorage,
-  removeTokensFromLocalStorage,
 } from '../helpers/functions';
 import { AuthenticationService } from './services/authentication.service';
 import { Subscription } from 'rxjs';
@@ -24,7 +23,6 @@ export class AppComponent implements OnInit, OnDestroy {
 
   constructor(
     private authenticationService: AuthenticationService,
-    private router: Router,
     private toastr: ToastrService
   ) {}
 
@@ -53,8 +51,6 @@ export class AppComponent implements OnInit, OnDestroy {
         this.toastr.error('Error at logout', 'Error');
       },
     });
-    removeTokensFromLocalStorage();
-    this.authenticationService.loggedInChange(false);
-    this.router.navigate(['/']);
+    this.authenticationService.appLogout();
   }
 }

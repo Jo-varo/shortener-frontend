@@ -8,7 +8,11 @@ import {
   LogoutResponse,
   RegisterResponse,
 } from './auth.type';
-import { getTokensFromLocalStorage } from '../../helpers/functions';
+import {
+  getTokensFromLocalStorage,
+  removeTokensFromLocalStorage,
+} from '../../helpers/functions';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -16,7 +20,7 @@ import { getTokensFromLocalStorage } from '../../helpers/functions';
 export class AuthenticationService {
   isLoggedIn: BehaviorSubject<boolean> = new BehaviorSubject<boolean>(false);
 
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   loggedInChange(isLoggedIn: boolean) {
     this.isLoggedIn.next(isLoggedIn);
@@ -56,5 +60,11 @@ export class AuthenticationService {
       },
       { responseType: 'json' }
     ) as Observable<RegisterResponse>;
+  }
+
+  appLogout() {
+    removeTokensFromLocalStorage();
+    this.loggedInChange(false);
+    this.router.navigate(['/']);
   }
 }

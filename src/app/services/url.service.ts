@@ -1,4 +1,4 @@
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable, Subject } from 'rxjs';
 import { environment } from '../../environments/environment.development';
@@ -8,7 +8,6 @@ import {
   SingleURLResponse,
   URLListResponse,
 } from './url.type';
-import { getTokensFromLocalStorage } from '../../helpers/functions';
 import { AuthenticationService } from './authentication.service';
 import { ToastrService } from 'ngx-toastr';
 
@@ -35,19 +34,10 @@ export class UrlService {
       const isLoggedIn = this.authenticationService.isLoggedIn.value;
       const apiUrl = `${environment.apiUrl}/url`;
       if (isLoggedIn) {
-        const accessToken = getTokensFromLocalStorage()['access'];
-        const header = new HttpHeaders().set(
-          'Authorization',
-          `Bearer ${accessToken}`
-        );
-        return this.http.post(
-          apiUrl,
-          {
-            original_url: originalUrl,
-            slug,
-          },
-          { headers: header }
-        ) as Observable<ShortURLResponse>;
+        return this.http.post(apiUrl, {
+          original_url: originalUrl,
+          slug,
+        }) as Observable<ShortURLResponse>;
       }
       return this.http.post(apiUrl, {
         original_url: originalUrl,
@@ -59,24 +49,22 @@ export class UrlService {
 
   getLinksList() {
     try {
-      const accessToken = getTokensFromLocalStorage()['access'];
-      const header = new HttpHeaders().set(
-        'Authorization',
-        `Bearer ${accessToken}`
-      );
-      (
-        this.http.get(environment.apiUrl + '/url_list', {
-          headers: header,
-        }) as Observable<URLListResponse[]>
-      ).subscribe({
-        next: (data) => {
-          this.linksList.next(data);
-        },
-        error: (error) => {
-          console.log(error);
-          throw new Error('Error at getting urls');
-        },
-      });
+      this.http
+        .get(environment.apiUrl + '/url_list', { observe: 'response' })
+        .subscribe({
+          next: (data) => {
+            this.linksList.next(data.body as URLListResponse[]);
+          },
+          error: (error) => {
+            if (error.status === 401) {
+              setTimeout(() => {
+                return this.authenticationService.appLogout();
+              }, 750);
+            }
+            console.log(error);
+            throw new Error('Error at getting urls');
+          },
+        });
     } catch (e) {
       this.toastr.error('Error at getting links', 'Error');
       throw new Error('Error at getting urls');
@@ -95,14 +83,9 @@ export class UrlService {
 
   deleteLink(id: number): Observable<DeletedURLResponse> {
     try {
-      const accessToken = getTokensFromLocalStorage()['access'];
-      const header = new HttpHeaders().set(
-        'Authorization',
-        `Bearer ${accessToken}`
-      );
-      return this.http.delete(environment.apiUrl + '/url/' + id, {
-        headers: header,
-      }) as Observable<DeletedURLResponse>;
+      return this.http.delete(
+        environment.apiUrl + '/url/' + id
+      ) as Observable<DeletedURLResponse>;
     } catch (e) {
       throw new Error('Error at deleting url');
     }
@@ -118,19 +101,12 @@ export class UrlService {
     slug: string;
   }): Observable<SingleURLResponse> {
     try {
-      const accessToken = getTokensFromLocalStorage()['access'];
-      const header = new HttpHeaders().set(
-        'Authorization',
-        `Bearer ${accessToken}`
-      );
       const body = {
         original_url: originalUrl,
         slug,
       };
       const apiUrl = `${environment.apiUrl}/url/${id}`;
-      return this.http.patch(apiUrl, body, {
-        headers: header,
-      }) as Observable<SingleURLResponse>;
+      return this.http.patch(apiUrl, body) as Observable<SingleURLResponse>;
     } catch (e) {
       throw new Error('Error at editing link');
     }
