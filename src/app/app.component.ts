@@ -30,7 +30,6 @@ export class AppComponent implements OnInit, OnDestroy {
     const token = getTokensFromLocalStorage();
     this.loggedInSubscription = this.authenticationService.isLoggedIn.subscribe(
       (loggedInValue) => {
-        console.log({ time: Date.now(), loggedInValue });
         this.isLoggedIn = loggedInValue;
       }
     );

@@ -96,7 +96,10 @@ export class CustomSlugComponent implements OnInit, OnDestroy {
           this.urlService.getLinksList();
           this.closeModal();
         },
-        error: (error) => console.log(error),
+        error: (error) => {
+          this.toastr.error('Error at creating', 'Error');
+          console.log(error);
+        },
       });
       return;
     }
