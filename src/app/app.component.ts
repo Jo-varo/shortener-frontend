@@ -1,17 +1,18 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { RouterLink, RouterOutlet } from '@angular/router';
-import { HomeComponent } from './home/home.component';
-import {
-  getTokensFromLocalStorage,
-} from '../helpers/functions';
+import { getTokensFromLocalStorage } from '../helpers/functions';
 import { AuthenticationService } from './services/authentication.service';
 import { Subscription } from 'rxjs';
 import { ToastrService } from 'ngx-toastr';
+import { NgIconComponent, provideIcons } from '@ng-icons/core';
+import { ionLinkOutline } from '@ng-icons/ionicons';
+import { FooterComponent } from './footer/footer.component';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterLink, HomeComponent],
+  imports: [RouterOutlet, RouterLink, FooterComponent, NgIconComponent],
+  viewProviders: [provideIcons({ ionLinkOutline })],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css',
 })
