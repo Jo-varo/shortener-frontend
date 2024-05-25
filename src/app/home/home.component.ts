@@ -20,6 +20,9 @@ import { ToastrService } from 'ngx-toastr';
   animations: [slideDown, slideUp, blink],
 })
 export class HomeComponent {
+
+  title = 'Shortener'
+
   constantOriginalURL = ORIGINAL_URL;
   formatOriginalURL = formatLengthOriginalURL;
 

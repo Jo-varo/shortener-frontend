@@ -63,6 +63,7 @@ export class LoginComponent {
             refresh: data.refresh_token,
           });
           this.router.navigate(['/']);
+          this.toastr.success('Logged in')
           this.authenticationService.loggedInChange(true);
         },
         error: (error) => {
