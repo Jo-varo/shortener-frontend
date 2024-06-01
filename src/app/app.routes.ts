@@ -8,26 +8,52 @@ import { RegisterComponent } from './register/register.component';
 import { authGuard } from './guards/auth.guard';
 
 export const routes: Routes = [
-  { path: '', component: HomeComponent, title: 'Shortener' },
-  { path: 'login', component: LoginComponent, title: 'Login' },
-  { path: 'register', component: RegisterComponent, title: 'Register' },
+  { path: '', component: HomeComponent, title: 'Shortener', pathMatch: 'full' },
+  {
+    path: 'login',
+    loadComponent: () =>
+      import('./login/login.component').then((c) => c.LoginComponent),
+    title: 'Login',
+  },
+  {
+    path: 'register',
+    loadComponent: () =>
+      import('./register/register.component').then((c) => c.RegisterComponent),
+    title: 'Register',
+  },
   {
     path: 'manage-urls',
-    component: UrlManagerComponent,
+    loadComponent: () =>
+      import('./url-manager/url-manager.component').then(
+        (c) => c.UrlManagerComponent
+      ),
     title: 'URL Manager',
     canActivate: [authGuard],
     children: [
       {
         path: 'create',
         title: 'Create new url',
-        component: CustomSlugComponent,
+        loadComponent: () =>
+          import('./custom-slug/custom-slug.component').then(
+            (c) => c.CustomSlugComponent
+          ),
       },
       {
         path: ':id',
         title: (route) => `Edit custom slug ${route.params['id']}`,
-        component: CustomSlugComponent,
+        loadComponent: () =>
+          import('./custom-slug/custom-slug.component').then(
+            (c) => c.CustomSlugComponent
+          ),
       },
     ],
   },
-  { path: '**', component: PageNotFoundComponent, title: 'Page not found' },
+  {
+    path: '**',
+    loadComponent: () =>
+      import('./page-not-found/page-not-found.component').then(
+        (c) => c.PageNotFoundComponent
+      ),
+    title: 'Page not found',
+  },
 ];
