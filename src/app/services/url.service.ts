@@ -31,16 +31,10 @@ export class UrlService {
     slug?: string;
   }): Observable<ShortURLResponse> {
     try {
-      const isLoggedIn = this.authenticationService.isLoggedIn.value;
       const apiUrl = `${environment.apiUrl}/url`;
-      if (isLoggedIn) {
-        return this.http.post(apiUrl, {
-          original_url: originalUrl,
-          slug,
-        }) as Observable<ShortURLResponse>;
-      }
       return this.http.post(apiUrl, {
         original_url: originalUrl,
+        slug,
       }) as Observable<ShortURLResponse>;
     } catch (e) {
       throw new Error('Error at shorten link');
@@ -61,13 +55,12 @@ export class UrlService {
                 return this.authenticationService.appLogout();
               }, 750);
             }
-            console.log(error);
+            this.toastr.error('Error at getting list of urls', 'Error');
             throw new Error('Error at getting urls');
           },
         });
-    } catch (e) {
-      this.toastr.error('Error at getting links', 'Error');
-      throw new Error('Error at getting urls');
+    } catch (error) {
+      console.log(error);
     }
   }
 

@@ -26,6 +26,17 @@ export class AuthenticationService {
     this.isLoggedIn.next(isLoggedIn);
   }
 
+  register({ email, password }: AuthParams): Observable<RegisterResponse> {
+    return this.http.post(
+      environment.apiUrl + '/register',
+      {
+        email,
+        password,
+      },
+      { responseType: 'json' }
+    ) as Observable<RegisterResponse>;
+  }
+
   login({ email, password }: AuthParams): Observable<LoginResponse> {
     return this.http.post(
       environment.apiUrl + '/login',
@@ -49,17 +60,6 @@ export class AuthenticationService {
     } catch {
       throw new Error('Error at logout');
     }
-  }
-
-  register({ email, password }: AuthParams): Observable<RegisterResponse> {
-    return this.http.post(
-      environment.apiUrl + '/register',
-      {
-        email,
-        password,
-      },
-      { responseType: 'json' }
-    ) as Observable<RegisterResponse>;
   }
 
   appLogout() {

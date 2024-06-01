@@ -17,8 +17,6 @@ import { FooterComponent } from './footer/footer.component';
   styleUrl: './app.component.css',
 })
 export class AppComponent implements OnInit, OnDestroy {
-  //TODO: Remove 'title'
-  title = '';
   isLoggedIn = false;
   loggedInSubscription!: Subscription;
 

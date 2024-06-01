@@ -33,12 +33,14 @@ export class UrlManagerComponent implements OnInit, OnDestroy {
           this.urlService.getLinksList();
         },
         error: (error) => {
-          console.log(error)
+          console.log(error);
           throw new Error(error);
         },
       });
     } catch (error) {
-      this.toastr.error('An error occurred at trying to delete', 'Error');
+      const errorMsg = 'An error occurred at trying to delete';
+      console.log(errorMsg);
+      this.toastr.error(errorMsg, 'Error');
     }
   }
 

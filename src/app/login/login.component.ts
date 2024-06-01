@@ -44,7 +44,7 @@ export class LoginComponent {
   }
 
   handleSubmit() {
-    if (!this.formLogin.valid) {
+    if (this.formLogin.invalid) {
       this.toastr.warning('Some fields are incomplete', 'Invalid Form');
       return;
     }
@@ -68,7 +68,7 @@ export class LoginComponent {
         },
         error: (error) => {
           this.toastr.error('Error at log in', 'Error');
-          throw new Error('error at log in');
+          throw new Error('Error at log in');
         },
       });
     } catch (error) {

@@ -60,13 +60,18 @@ export class CustomSlugComponent implements OnInit, OnDestroy {
     } else {
       //Edit
       this.modalType = 'Edit';
-      this.urlService.getLink({ id: this.id }).subscribe({
-        next: (data) => {
-          this.originalURL.setValue(data.original_url);
-          this.customSlug.setValue(data.slug);
-        },
-        error: (error) => this.toastr.error('Error', 'Error at getting url'),
-      });
+      try {
+        this.urlService.getLink({ id: this.id }).subscribe({
+          next: (data) => {
+            this.originalURL.setValue(data.original_url);
+            this.customSlug.setValue(data.slug);
+          },
+          error: (error) => this.toastr.error('Error', 'Error at getting url'),
+        });
+      } catch (error) {
+        console.log(error);
+        this.toastr.error('Error', 'Error at getting url');
+      }
     }
     document.querySelector('body')!.style.overflow = 'hidden';
   }

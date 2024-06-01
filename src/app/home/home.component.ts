@@ -20,8 +20,7 @@ import { ToastrService } from 'ngx-toastr';
   animations: [slideDown, slideUp, blink],
 })
 export class HomeComponent {
-
-  title = 'Shortener'
+  title = 'Shortener';
 
   constantOriginalURL = ORIGINAL_URL;
   formatOriginalURL = formatLengthOriginalURL;
@@ -44,40 +43,48 @@ export class HomeComponent {
   }
 
   handleSubmit() {
-    if (!this.shortenerForm.valid) {
+    if (this.shortenerForm.invalid) {
       this.toastr.warning('Enter a valid url', 'Invalid URL');
       return;
     }
 
     const originalUrl = this.shortenerForm.value[ORIGINAL_URL]!;
 
-    this.urlService
-      .shortLink({
-        originalUrl,
-      })
-      .subscribe({
-        next: (data) => {
-          this.shortenedLink = `${environment.apiUrlPreffix}/${data.slug}`;
-          this.shortedOriginalUrl = originalUrl;
-          this.incrementable++;
-          this.toastr.success('Shorted link', 'Success');
-          this.shortenerForm.reset();
-        },
-        error: (error) => {
-          this.toastr.error('An error has occured at shortening link', 'Error');
-          console.log(error);
-        },
-      });
+    try {
+      this.urlService
+        .shortLink({
+          originalUrl,
+        })
+        .subscribe({
+          next: (data) => {
+            this.shortenedLink = `${environment.apiUrlPreffix}/${data.slug}`;
+            this.shortedOriginalUrl = originalUrl;
+            this.incrementable++;
+
+            this.toastr.success('Shorted link', 'Success');
+            this.shortenerForm.reset();
+          },
+          error: (error) => {
+            this.toastr.error(
+              'An error has occured at shortening link',
+              'Error'
+            );
+            console.log(error);
+          },
+        });
+    } catch (error) {
+      const errorMsg = 'An error has occured at trying to short link';
+      console.log(errorMsg);
+      this.toastr.error(errorMsg, 'Error');
+    }
   }
 
-  copyShortedLink() {
-    (async () => {
-      try {
-        await navigator.clipboard.writeText(this.shortenedLink);
-        this.toastr.info('Shorted url copied', 'Copied');
-      } catch (error) {
-        this.toastr.error('Error at copying', 'Error');
-      }
-    })();
+  async copyShortedLink() {
+    try {
+      await navigator.clipboard.writeText(this.shortenedLink);
+      this.toastr.info('Shorted url copied', 'Copied');
+    } catch (error) {
+      this.toastr.error('Error at copying', 'Error');
+    }
   }
 }

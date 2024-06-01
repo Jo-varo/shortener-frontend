@@ -58,7 +58,7 @@ export class RegisterComponent {
   }
 
   handleSubmit() {
-    if (!this.formRegister.valid) {
+    if (this.formRegister.invalid) {
       this.toastr.warning('Some fields have errors', 'Invalid form');
       return;
     }
