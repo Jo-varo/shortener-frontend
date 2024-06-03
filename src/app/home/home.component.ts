@@ -4,11 +4,11 @@ import { ORIGINAL_URL } from '../../helpers/constants';
 import { UrlService } from '../services/url.service';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { bootstrapClipboard2Fill } from '@ng-icons/bootstrap-icons';
-import { environment } from '../../environments/environment.development';
 import { formatLengthOriginalURL } from '../../helpers/functions';
 import { blink, slideDown, slideUp } from './home.animations';
 import { originalUrlValidators } from '../../validators/FormValidators';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from '../../environments/environment';
 
 @Component({
   standalone: true,

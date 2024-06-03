@@ -11,6 +11,7 @@ import { ORIGINAL_URL } from '../../helpers/constants';
 import { UrlService } from '../services/url.service';
 import { originalUrlValidators } from '../../validators/FormValidators';
 import { ToastrService } from 'ngx-toastr';
+import { environment } from '../../environments/environment';
 
 @Component({
   selector: 'app-custom-slug',
@@ -22,6 +23,7 @@ import { ToastrService } from 'ngx-toastr';
 export class CustomSlugComponent implements OnInit, OnDestroy {
   id = '';
   modalType?: ModalType;
+  hostName = environment.apiUrlPreffix;
   modalTitle = () => `${this.modalType} a custom url`;
   buttonText = () => `${this.modalType} link`;
   routeSubscription?: Subscription;

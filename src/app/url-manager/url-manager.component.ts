@@ -1,10 +1,10 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Router, RouterLink, RouterOutlet } from '@angular/router';
+import { RouterLink, RouterOutlet } from '@angular/router';
 import { bootstrapPencilFill, bootstrapXLg } from '@ng-icons/bootstrap-icons';
 import { NgIconComponent, provideIcons } from '@ng-icons/core';
 import { UrlService } from '../services/url.service';
 import { URLListResponse } from '../services/url.type';
-import { environment } from '../../environments/environment.development';
+import { environment } from '../../environments/environment';
 import { Subscription } from 'rxjs';
 import { formatLengthOriginalURL } from '../../helpers/functions';
 import { ToastrService } from 'ngx-toastr';
